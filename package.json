@@ -1,0 +1,25 @@
+{
+  "name": "@mpneon/cloud",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "start": "tsc --watch",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "author": "Doma <leishenghao@126.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "wx-server-sdk": "^1.5.3"
+  },
+  "devDependencies": {
+    "@types/wx-server-sdk": "^0.8.0",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.0.1"
+  }
+}

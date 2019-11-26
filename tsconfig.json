@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+      "strictNullChecks": true,
+      "noImplicitAny": true,
+      "module": "CommonJS",
+      "target": "es6",
+      "allowJs": false,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "noImplicitThis": true,
+      "noImplicitReturns": true,
+      "alwaysStrict": true,
+      "esModuleInterop": true,
+      "inlineSourceMap": true,
+      "inlineSources": true,
+      "skipLibCheck": true,
+      "noFallthroughCasesInSwitch": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "strict": true,
+      "moduleResolution": "node",
+      "baseUrl": ".",
+      "strictPropertyInitialization": true,
+      "lib": ["esnext"],
+      "rootDir": "src",
+      "outDir": "dist"
+    },
+    "exclude": [
+      "node_modules"
+    ]
+  }
+  
