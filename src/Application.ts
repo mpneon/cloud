@@ -7,7 +7,7 @@ import {
 import DefaultRouter from "./Router";
 import Request from "./Request";
 import Container from "./Container";
-import RequestContext from "./RequestContext";
+import AppContext from "./AppContext";
 
 export default class Application implements ApplicationContract {
   protected $container: Container = Container.getInstance();
@@ -21,7 +21,7 @@ export default class Application implements ApplicationContract {
     this.$container.singleton("db", (container: Container) =>
       container.resolve<typeof cloud>("cloud").database()
     );
-    this.$container.singleton<RequestContext>("context", RequestContext);
+    this.$container.singleton<AppContext>("context", AppContext);
   }
 
   protected get $router(): Router {
@@ -56,7 +56,7 @@ export default class Application implements ApplicationContract {
 
   protected $userResolver?: any;
 
-  useUserResolver(resolveUser: (openid: string, context: RequestContext) => Promise<any>) {
+  useUserResolver(resolveUser: (openid: string, context: AppContext) => Promise<any>) {
     this.$userResolver = resolveUser;
   }
 }

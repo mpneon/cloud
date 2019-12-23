@@ -1,4 +1,4 @@
-import { RequestHandler, Request, RequestContext } from '../types';
+import { RequestHandler, Request, AppContext } from '../types';
 import Response from './Response';
 
 export default class Route {
@@ -7,7 +7,7 @@ export default class Route {
         protected $handler: RequestHandler
     ) {}
 
-    async run(request: Request, context: RequestContext): Promise<Response> {
+    async run(request: Request, context: AppContext): Promise<Response> {
         return this.newResponse(await this.$handler(request, context));
     }
 

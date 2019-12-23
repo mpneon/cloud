@@ -1,13 +1,13 @@
 import {
   Request as RequestConstract,
   Container,
-  RequestContext
+  AppContext
 } from "../types";
 
 export default class Request implements RequestConstract {
   protected $container!: Container;
 
-  protected $userResolver: (openid: string, context: RequestContext) => Promise<any> = Request.resolveUser;
+  protected $userResolver: (openid: string, context: AppContext) => Promise<any> = Request.resolveUser;
 
   protected constructor(protected $event: any, protected $context: any) {}
 
@@ -15,7 +15,7 @@ export default class Request implements RequestConstract {
     return new this(event, context).setContainer(container);
   }
 
-  protected static resolveUser(openid: string, { db }: RequestContext): Promise<any> {
+  protected static resolveUser(openid: string, { db }: AppContext): Promise<any> {
     if (!openid) {
       return Promise.resolve(null);
     }
@@ -64,7 +64,7 @@ export default class Request implements RequestConstract {
     return this.$userResolver(OPENID, context);
   }
 
-  setUserResolver(userResolver: (openid: string, context: RequestContext) => Promise<any>): void {
+  setUserResolver(userResolver: (openid: string, context: AppContext) => Promise<any>): void {
     this.$userResolver = userResolver;
   }
 }

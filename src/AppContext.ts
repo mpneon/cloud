@@ -1,8 +1,8 @@
 import { inject, autoInjectable } from "tsyringe";
-import { RequestContext as RequestContextContract, Container } from "../types";
+import { AppContext as AppContextContract, Container } from "../types";
 
 @autoInjectable()
-export default class RequestContext implements RequestContextContract {
+export default class AppContext implements AppContextContract {
   constructor(@inject("container") protected $container: Container) {}
 
   get cloud() {

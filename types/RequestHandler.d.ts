@@ -1,4 +1,4 @@
-import { Request, RequestContext } from "./index";
+import { Request, AppContext } from "./index";
 export interface RequestHandler<Result = any> {
-  (request: Request, context: RequestContext): Promise<Result>;
+  (request: Request, context: AppContext): Promise<Result>;
 }
