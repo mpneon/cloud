@@ -20,6 +20,7 @@
     "wx-server-sdk": "^1.6.0"
   },
   "dependencies": {
+    "cron-parser": "^2.13.0",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.0.1"
   }

@@ -9,6 +9,8 @@
 
 ### 路由
 
+使用 `app.route()` 方法创建路由。
+
 ```javascript
 // sum.js
 module.exports = (request, { cloud, db, ...context }) => {
@@ -28,6 +30,8 @@ exports.main = (event, context) => app.handle(event, context);
 ```
 
 ### 获取当前请求用户 `@since 1.1.0`
+
+你可以从 `request.user` 字段（异步）获取发起当前请求的用户。
 
 ```javascript
 // user.js
@@ -58,6 +62,30 @@ app.useUserResolver((openid, { cloud, db, ...context }) => new Promise(resolve =
 
 exports.main = (event, context) => app.handle(event, context)
 ```
+
+### 定时任务 `@since 1.2.0`
+
+若要使用定时任务，须根据[小程序文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/guide/functions/triggers.html)设置一个每分钟执行的定时触发器，然后使用 `app.cron()` 方法注册你的定时任务。
+
+```javascript
+// task.js
+module.exports = (request, { cloud, db, ...context }) => {
+    console.log('Taske invoked every other minute')
+}
+```
+
+```javascript
+// index.js
+const app = new (require('@mpneon/cloud').Application)();
+
+app.route('sum', require('./sum'))
+
+app.cron('*/2 * * * *', require('./task'))
+
+exports.main = (event, context) => app.handle(event, context);
+```
+
+注意 `app.cron()` 方法只支持标准 Cron 表达式，即不支持秒和年。
 
 ## License
 

@@ -15,6 +15,12 @@ export interface Application {
   routes(routesFactory: (route: this['route']) => any): this;
 
   /**
+   * 声明定时任务 
+   * 只支持标准 Cron 表达式（不含秒、年）
+   */
+  cron(expression: string, handler: RequestHandler): this;
+
+  /**
    * 云函数入口
    * @param event
    * @param context

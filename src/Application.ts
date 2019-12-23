@@ -2,9 +2,11 @@ import cloud from "wx-server-sdk";
 import {
   Router,
   Application as ApplicationContract,
-  RequestHandler
+  RequestHandler,
+  Scheduler
 } from "../types";
 import DefaultRouter from "./Router";
+import DefaultScheduler from './Scheduler';
 import Request from "./Request";
 import Container from "./Container";
 import AppContext from "./AppContext";
@@ -15,6 +17,7 @@ export default class Application implements ApplicationContract {
   constructor(env: string = cloud.DYNAMIC_CURRENT_ENV) {
     this.$container.instance("app", this);
     this.$container.singleton("router", DefaultRouter);
+    this.$container.singleton('scheduler', DefaultScheduler);
 
     cloud.init({ env });
     this.$container.instance("cloud", cloud);
@@ -26,6 +29,10 @@ export default class Application implements ApplicationContract {
 
   protected get $router(): Router {
     return this.$container.resolve<Router>("router");
+  }
+
+  protected get $scheduler(): Scheduler {
+    return this.$container.resolve<Scheduler>('scheduler');
   }
 
   route(path: string, handler: RequestHandler): this {
@@ -40,14 +47,30 @@ export default class Application implements ApplicationContract {
     return this;
   }
 
+  cron(expression: string, handler: RequestHandler): this {
+    this.$scheduler.register(expression, handler);
+
+    return this;
+  }
+
+  /**
+   * 处理云函数调用
+   * 1. 判断是否为定时触发器调用，如果是，路由到触发器
+   * 2. 如果不是，路由到函数
+   * @param event 
+   * @param context 
+   */
   async handle(event: any, context: any): Promise<any> {
     const request = Request.from(event, context, this.$container);
+    this.$container.instance("request", request);
+
+    if (event?.Type === 'Timer') {
+      return this.$scheduler.dispatch(request);
+    }
 
     if (this.$userResolver) {
       request.setUserResolver(this.$userResolver);
     }
-
-    this.$container.instance("request", request);
 
     const response = await this.$router.dispatch(request);
 

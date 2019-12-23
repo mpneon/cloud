@@ -18,6 +18,9 @@ export default class Router implements RouterContract {
         return this;
     }
 
+    /**
+     * fixme 处理没有路由匹配的情况
+     */
     dispatch(request: Request) {
         const route = this.$routes.get(request.path);
         return route!.run(request, this.$container.resolve('context'));
