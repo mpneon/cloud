@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "types": "index.d.ts",
   "scripts": {
-    "start": "tsc --watch",
-    "build": "tsc",
+    "start": "./node_modules/typescript/bin/tsc --watch",
+    "build": "./node_modules/typescript/bin/tsc",
     "prepublishOnly": "npm run build"
   },
   "author": "Doma <leishenghao@126.com>",
@@ -16,7 +16,8 @@
   },
   "devDependencies": {
     "@types/wx-server-sdk": "^0.8.0",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "wx-server-sdk": "^1.6.0"
   },
   "dependencies": {
     "reflect-metadata": "^0.1.13",
