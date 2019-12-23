@@ -7,4 +7,6 @@ export interface Request {
   readonly context: any;
 
   readonly path: string;
+
+  readonly user: Promise<any>;
 }

@@ -43,10 +43,20 @@ export default class Application implements ApplicationContract {
   async handle(event: any, context: any): Promise<any> {
     const request = Request.from(event, context, this.$container);
 
+    if (this.$userResolver) {
+      request.setUserResolver(this.$userResolver);
+    }
+
     this.$container.instance("request", request);
 
     const response = await this.$router.dispatch(request);
 
     return response.getBody();
+  }
+
+  protected $userResolver?: any;
+
+  useUserResolver(resolveUser: (openid: string, context: RequestContext) => Promise<any>) {
+    this.$userResolver = resolveUser;
   }
 }
