@@ -1,6 +1,6 @@
 {
   "name": "@mpneon/cloud",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "微信小程序云函数框架",
   "main": "dist/index.js",
   "types": "index.d.ts",
@@ -10,6 +10,11 @@
     "prepublishOnly": "npm run build"
   },
   "author": "Doma <leishenghao@126.com>",
+  "homepage": "https://github.com/mpneon/cloud#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mpneon/cloud.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/wx-server-sdk": "^0.8.0",
