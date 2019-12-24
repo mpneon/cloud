@@ -18,10 +18,20 @@ export default class Scheduler implements SchedulerContract {
         return this;
     }
 
-    dispatch(request: Request) {
+    async dispatch(request: Request) {
+
+        console.info('正在准备定时任务…');
 
         const context = this.$container.resolve('context');
+        const dueTasks = this.$tasks.filter(task => task.isDue());
 
-        return Promise.all(this.$tasks.filter(task => task.isDue()).map(task => task.run(request, context)));
+        if (!dueTasks.length) {
+            console.info('没有需要执行的定时任务。');
+        }
+
+        dueTasks.forEach(task => {
+            console.info(`执行定时任务：${task.getDisplayName()}`);
+            task.run(request, context);
+        });
     }
 }

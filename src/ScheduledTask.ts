@@ -29,4 +29,8 @@ export default class ScheduledTask {
   async run(request: Request, context: AppContext): Promise<any> {
     return this.$handler(request, context);
   }
+
+  getDisplayName(): string {
+    return this.$handler.name ?? '[anonymous]';
+  }
 }
