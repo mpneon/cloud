@@ -4,8 +4,13 @@
 
 ## 特性
 - 云函数路由（代码共享）
+- 定时任务（支持多个）
 
-## Usage
+## 起步
+
+新建一个云函数 `neon`，安装 `@mpneon/cloud` 作为它的依赖。
+
+## 用例
 
 ### 路由
 
@@ -29,7 +34,27 @@ app.route('sum', require('./sum'))
 exports.main = (event, context) => app.handle(event, context);
 ```
 
-### 获取当前请求用户 `@since 1.1.0`
+在小程序端调用时，调用云函数 `neon`，并传入 `$path` 字段表示要访问的函数路由。
+
+```javascript
+// app.js
+wx.cloud.callFunction({
+  // 云函数名称
+  name: 'neon',
+  // 传给云函数的参数
+  data: {
+    $path: 'sum',
+    a: 1,
+    b: 2,
+  },
+  success: function(res) {
+    console.log(res.result) // 3
+  },
+  fail: console.error
+})
+```
+
+### 获取当前请求用户
 
 你可以从 `request.user` 字段（异步）获取发起当前请求的用户。
 
@@ -63,9 +88,24 @@ app.useUserResolver((openid, { cloud, db, ...context }) => new Promise(resolve =
 exports.main = (event, context) => app.handle(event, context)
 ```
 
-### 定时任务 `@since 1.2.0`
+### 定时任务
 
-若要使用定时任务，须根据[小程序文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/guide/functions/triggers.html)设置一个每分钟执行的定时触发器，然后使用 `app.cron()` 方法注册你的定时任务。
+若要使用定时任务，须根据[小程序文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/guide/functions/triggers.html)设置一个**每分钟执行**的定时触发器。
+
+```json
+// config.json
+{
+  "triggers": [
+    {
+      "name": "neon.schedule",
+      "type": "timer",
+      "config": "0 * * * * * *"
+    }
+  ]
+}
+```
+
+然后使用 `app.cron()` 方法注册你的定时任务。
 
 ```javascript
 // task.js
