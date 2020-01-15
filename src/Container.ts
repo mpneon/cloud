@@ -15,6 +15,7 @@ export default class Container implements ContainerContract {
 
   protected constructor() {
     this.instance("container", this);
+    (global as any).use = this.resolve.bind(this);
   }
 
   resolve<T = any>(key: string) {

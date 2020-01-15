@@ -12,4 +12,11 @@ interface ApplicationConstructor {
   ): ApplicationContract;
 }
 
+declare global {
+  /**
+   * @since 1.3.0
+   */
+  function use(key: string): any;
+}
+
 export const Application: ApplicationConstructor;
