@@ -1,6 +1,13 @@
 import { RequestHandler, AppContext } from './index';
 
 export interface Application {
+
+  /**
+   * 当前版本
+   * @since 1.3.0
+   */
+  readonly version: string;
+
   /**
    * 声明路由
    * @param path

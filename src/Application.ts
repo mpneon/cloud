@@ -12,6 +12,12 @@ import Container from "./Container";
 import AppContext from "./AppContext";
 
 export default class Application implements ApplicationContract {
+
+  /**
+   * 当前版本
+   */
+  protected $version: string = '1.3.0';
+
   protected $container: Container = Container.getInstance();
 
   constructor(env: string = cloud.DYNAMIC_CURRENT_ENV) {
@@ -25,6 +31,11 @@ export default class Application implements ApplicationContract {
       container.resolve<typeof cloud>("cloud").database()
     );
     this.$container.singleton<AppContext>("context", AppContext);
+    console.info(`@mpneon/cloud version ${this.version}`);
+  }
+
+  get version() {
+    return this.$version;
   }
 
   protected get $router(): Router {
