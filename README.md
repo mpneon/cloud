@@ -18,7 +18,7 @@
 
 ```javascript
 // sum.js
-module.exports = (request, { cloud, db, ...context }) => {
+module.exports = (request) => {
     const { a, b } = request.event
 
     return a + b
@@ -54,13 +54,31 @@ wx.cloud.callFunction({
 })
 ```
 
+### 使用云数据库
+
+你可以使用 `use('db')` 方法来获取云数据库实例。
+
+```javascript
+// users.js
+module.exports = (request) => {
+    const db = use('db')
+
+    const { data } = await db.collection('users').get()
+
+    return data
+}
+```
+
+全局方法 `use()` 还可用于获取其它模块实例，如：
+- `use('cloud')` 获取 `wx.cloud`
+
 ### 获取当前请求用户
 
 你可以从 `request.user` 字段（异步）获取发起当前请求的用户。
 
 ```javascript
-// user.js
-module.exports = async (request, { cloud, db, ...context }) => {
+// users.js
+module.exports = async (request) => {
 
     const user = await request.user
 
@@ -75,7 +93,8 @@ module.exports = async (request, { cloud, db, ...context }) => {
 
 app.route('user', require('./user'))
 
-app.useUserResolver((openid, { cloud, db, ...context }) => new Promise(resolve => {
+app.useUserResolver((openid) => new Promise(resolve => {
+  const db = use('db')
   // 取 users 集合中 openid 字段为 OPENID 的记录
   db.collection("users")
     .where({
@@ -109,7 +128,7 @@ exports.main = (event, context) => app.handle(event, context)
 
 ```javascript
 // task.js
-module.exports = (request, { cloud, db, ...context }) => {
+module.exports = (request) => {
     console.log('Taske invoked every other minute')
 }
 ```
