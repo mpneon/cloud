@@ -24,6 +24,9 @@ export default class Router implements RouterContract {
     async dispatch(request: Request) {
         console.info(`请求路由：${request.path}`);
         const route = this.$routes.get(request.path);
+        if (!route) {
+            return null as any;
+        }
         return route!.run(request, this.$container.resolve('context'));
     }
 }
